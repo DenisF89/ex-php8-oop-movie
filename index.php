@@ -17,13 +17,13 @@ class Movie {
     public $nome;
     public $regista;
     public $anno;
-    public Genre $genere;
+    public array $generi;
 
-    function __construct($_nome, $_regista, $_anno, Genre $_genere){
+    function __construct($_nome, $_regista, $_anno, array $_generi){
         $this->nome = $_nome;
         $this->regista = $_regista;
         $this->anno = $_anno;
-        $this->genere = $_genere;
+        $this->generi = $_generi;
     }
 
     public function isRecent(): bool {
@@ -34,9 +34,13 @@ class Movie {
 
 $drammatico = new Genre("Drammatico");
 $action = new Genre("Action");
+$romantico = new Genre("Romantico");
 
-$titanic = new Movie("Titanic","James Cameron",1997, $drammatico);
-$pulpFiction = new Movie("Pulp Fiction","Quentin Tarantino",1992, $action);
+$titanic = new Movie("Titanic","James Cameron",1997, [$drammatico, $romantico]);
+$pulpFiction = new Movie("Pulp Fiction","Quentin Tarantino",1992, [$action]);
+
+$movies = [$titanic, $pulpFiction];
+
         
 //var_dump ($titanic);
 //var_dump ($pulpFiction);
@@ -56,16 +60,19 @@ $pulpFiction = new Movie("Pulp Fiction","Quentin Tarantino",1992, $action);
 <?php
     echo "<h1> OOP-Movie </h1>";
 
-    echo "<h2>$titanic->nome</h2>";
-    echo "Regista: " . $titanic->regista . "<br>";
-    echo "Anno: " . $titanic->anno . "<br>";
-    echo "Genere: " . $titanic->genere->nome . "<br>";
+    foreach ($movies as $movie){
 
-
-    echo "<h2>$pulpFiction->nome</h2>";
-    echo "Regista: " . $pulpFiction->regista . "<br>";
-    echo "Anno: " . $pulpFiction->anno . "<br>";
-    echo "Genere: " . $pulpFiction->genere->nome . "<br>";
+        echo "<h2>$movie->nome</h2>";
+        echo "Regista: " . $movie->regista . "<br>";
+        echo "Anno: " . $movie->anno . "<br>";
+        
+        $nomiGeneri = [];
+        echo "Generi: ";
+        foreach($movie->generi as $genere){
+            $nomiGeneri[] = $genere->nome;
+        }
+        echo join(", ",$nomiGeneri);
+    }
 
 ?>
 
