@@ -1,7 +1,21 @@
 <?php
 
+trait HasGenres {
+    
+    protected string $separatore = ", ";
+
+    public function getGenres(): string{
+        $nomiGeneri = [];
+        foreach($this->generi as $genere){
+            $nomiGeneri[] = $genere->getName();
+        }
+        $titolo = "Gener".(count($nomiGeneri)>1 ? "i":"e").": "; 
+        return $titolo . implode($this->separatore, $nomiGeneri);
+    }
+}
+
 class Genre {
-    public $nome;
+    private $nome;
 
     function __construct($_nome){
         $this->nome = $_nome;
@@ -13,6 +27,8 @@ class Genre {
 }
 
 class Movie {
+
+    use hasGenres;
 
     public $nome;
     public $regista;
@@ -29,7 +45,6 @@ class Movie {
     public function isRecent(): bool {
         return $this->anno > 2020;
     }
-
 }
 
 $drammatico = new Genre("Drammatico");
@@ -66,12 +81,7 @@ $movies = [$titanic, $pulpFiction];
         echo "Regista: " . $movie->regista . "<br>";
         echo "Anno: " . $movie->anno . "<br>";
         
-        $nomiGeneri = [];
-        echo "Generi: ";
-        foreach($movie->generi as $genere){
-            $nomiGeneri[] = $genere->nome;
-        }
-        echo join(", ",$nomiGeneri);
+        echo $movie->getGenres();
     }
 
 ?>
