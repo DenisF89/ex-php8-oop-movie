@@ -51,9 +51,23 @@ foreach ($data as $movie){
             <h1>OOP Movies</h1>
     </div>
     <div class="container boxed">
-        <div class="row row-cols-1 row-cols-md-5 g-2">
 
-            <?php foreach ($movies as $movie) { ?>
+        <form class="row row-cols g-3 align-items-center my-4" method="GET">
+            <div class="col">
+                <input type="checkbox" name="recent" value="1"
+                <?php echo (isset($_GET['recent'])? 'checked':''); ?> >
+                <label>Mostra solo film recenti</label>
+            
+            <button class="btn btn-primary" type="submit">Filtra</button>
+        </form>
+
+        <div class="row row-cols-1 row-cols-md-5 g-2 my-4">
+
+            <?php foreach ($movies as $movie) { 
+                
+                if(!$movie->isRecent() && isset($_GET['recent'])){continue;}
+
+                ?>
                 <div class="col">
                     <div class="card h-100 bg-secondary text-light border-3">
                         <div class="card-header p-0">
@@ -73,7 +87,6 @@ foreach ($data as $movie){
                     </div>
                 </div>
             <?php } ?> 
-
         </div>
     </div>
 
