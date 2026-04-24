@@ -65,7 +65,7 @@ foreach ($data as $movie){
                     <option selected value="">Scegli un genere</option>
                     <?php foreach ($genres as $genre){
                         $value = $genre->getName();                                     
-                        $selected = $_GET['genre'] === $value ? "selected" : "";
+                        $selected = (isset($_GET['genre']) && $_GET['genre'] === $value) ? "selected" : "";
                         echo "<option $selected value=$value>$value</option>";
                         }?>
                 </select>
@@ -74,7 +74,7 @@ foreach ($data as $movie){
             <div class="col-3">
                 <button class="btn btn-primary" type="submit">Filtra</button>
             </div>
-            
+
         </form>
 
         <div class="row row-cols-1 row-cols-md-5 g-2 my-4">
@@ -91,10 +91,10 @@ foreach ($data as $movie){
                 if(isset($_GET['genre']) && $_GET['genre'] != ''){          //se è settato un filtro genere
                                                                             //trasformo l'array di oggetti(Genre) in array di stringhe
                     $nomi = array_map(                                      //array_map fa un ciclo di operazioni su array e restituisce un nuovo array
-                        fn($genere) => $genere->getName(),                  //callback che restituisce il nome del genere; fn = array function anonima
+                        fn($genere) => $genere->getName(),                  //callback che restituisce il nome del genere; fn = arrow function anonima
                         $movie->generi                                      //array su cui cicla
                         );
-                    if (!in_array($_GET['genre'], $nomi)) {continue;}       //se il filtro non corrisponde a nessun genere del film, non mostrarlo
+                    if (!in_array($_GET['genre'], $nomi, true)) {continue;}       //se il filtro non corrisponde a nessun genere del film, non mostrarlo
                 } 
 
             ?>
