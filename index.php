@@ -53,21 +53,51 @@ foreach ($data as $movie){
     <div class="container boxed">
 
         <form class="row row-cols g-3 align-items-center my-4" method="GET">
-            <div class="col">
+
+            <div class="col-3">
                 <input type="checkbox" name="recent" value="1"
                 <?php echo (isset($_GET['recent'])? 'checked':''); ?> >
                 <label>Mostra solo film recenti</label>
+            </div>
+
+            <div class="col-3">
+                <select class="form-select" id="genre" name="genre">
+                    <option selected value="">Scegli un genere</option>
+                    <?php foreach ($genres as $genre){
+                        $value = $genre->getName();                                     
+                        $selected = $_GET['genre'] === $value ? "selected" : "";
+                        echo "<option $selected value=$value>$value</option>";
+                        }?>
+                </select>
+            </div>
+
+            <div class="col-3">
+                <button class="btn btn-primary" type="submit">Filtra</button>
+            </div>
             
-            <button class="btn btn-primary" type="submit">Filtra</button>
         </form>
 
         <div class="row row-cols-1 row-cols-md-5 g-2 my-4">
 
-            <?php foreach ($movies as $movie) { 
-                
-                if(!$movie->isRecent() && isset($_GET['recent'])){continue;}
+            <?php 
+            //CICLO PER STAMPARE MOVIE
 
-                ?>
+                foreach ($movies as $movie) { 
+
+                //FILTRI
+                
+                if(!$movie->isRecent() && isset($_GET['recent'])) {continue;}       //se checkbox checked non mostrare i film piu vecchi del 2000
+
+                if(isset($_GET['genre']) && $_GET['genre'] != ''){          //se è settato un filtro genere
+                                                                            //trasformo l'array di oggetti(Genre) in array di stringhe
+                    $nomi = array_map(                                      //array_map fa un ciclo di operazioni su array e restituisce un nuovo array
+                        fn($genere) => $genere->getName(),                  //callback che restituisce il nome del genere; fn = array function anonima
+                        $movie->generi                                      //array su cui cicla
+                        );
+                    if (!in_array($_GET['genre'], $nomi)) {continue;}       //se il filtro non corrisponde a nessun genere del film, non mostrarlo
+                } 
+
+            ?>
                 <div class="col">
                     <div class="card h-100 bg-secondary text-light border-3">
                         <div class="card-header p-0">
