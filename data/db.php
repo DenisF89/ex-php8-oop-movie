@@ -1,0 +1,41 @@
+<?php
+$metodo = "2° METODO";
+//array di array associativi
+$data = [
+    [
+        "title" => "Titanic",
+        "director" => "James Cameron",
+        "coverurl" => "https://upload.wikimedia.org/wikipedia/en/1/18/Titanic_%281997_film%29_poster.png",
+        "year" => 1997,
+        "genre" => ["Drammatico", "Romantico"]
+    ],
+    [   "title" => "Pulp Fiction",
+        "director" => "Quentin Tarantino",
+        "coverurl" => "https://upload.wikimedia.org/wikipedia/ro/8/82/Pulp_Fiction_cover.jpg",
+        "year" => 1994,
+        "genre" => ["Crime", "Drammatico"]
+    ],
+    [
+        "title" => "Inception",
+        "director" => "Christopher Nolan",
+        "coverurl" => "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg",
+        "year" => 2010,
+        "genre" => ["Fantascienza", "Azione"]
+    ],
+    [
+        "title" => "The Matrix",
+        "director" => "The Wachowskis",
+        "coverurl" => "https://upload.wikimedia.org/wikipedia/en/d/db/The_Matrix.png",
+        "year" => 1999,
+        "genre" => ["Fantascienza", "Azione"]
+    ],
+    [
+        "title" => "The Godfather",
+        "director" => "Francis Ford Coppola",
+        "coverurl" => "https://m.media-amazon.com/images/M/MV5BNGEwYjgwOGQtYjg5ZS00Njc1LTk2ZGEtM2QwZWQ2NjdhZTE5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "year" => 1972,
+        "genre" => ["Crime", "Drammatico"]
+    ]
+];
+
+?>

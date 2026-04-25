@@ -5,34 +5,25 @@ require_once './Traits/HasGenres.php';
 require_once './Models/Genre.php';
 require_once './Models/Movie.php';
 
+//CREO ARRAY DI FILM E GENERI
+//--- 1°METODO: FILE JSON:ARRAY DI OGGETTI ---//
+$metodo = "1° METODO";
 //importo dati json
-$string = file_get_contents('./data/movies.json');
-$data = json_decode($string, true);
+//$string = file_get_contents('./data/movies.json');
+//$data = json_decode($string, true);
 
-//inizializzo array film e generi
-$movies = [];
-$genres = [];
+//--- 2°METODO: FILE PHP:ARRAY DI ARRAY ---//
+//importo dati php
+require_once './data/db.php';
 
-//per ogni film creo una istanza di Movie che contiene istanze di Genre
-foreach ($data as $movie){
+//--- CICLO PER 1° e 2° METODO ---//
+require_once './functions/cicle.php';
+$result = cicle($data);
+$movies = $result['movies'];
+$genres = $result['genres'];
 
-    $moviegenres= [];
-
-    foreach ($movie['genre'] as $genre ){           
-        if (!isset($genres[$genre])) {              //evito duplicati nell'array genres        
-            $genres[$genre] = new Genre($genre);    //se non esiste già il genere creo nuova istanza di Genre
-        }
-        $moviegenres[] = $genres[$genre];
-    }
-
-    $movies[] = new Movie(  //creo nuova istanza di Movie
-        $movie['title'],
-        $movie['director'],
-        $movie['coverurl'],
-        $movie['year'],
-        $moviegenres        //array di oggetti di classe Genre
-        );
-}
+//--- 3°METODO: FILE PHP:ARRAY DI ISTANZE ---// 
+//require_once './data/istances.php';
 
 ?>
 
@@ -49,15 +40,16 @@ foreach ($data as $movie){
 
     <div class="container text-center py-4">
             <h1>OOP Movies</h1>
+            <h6><?=$metodo?></h6>
     </div>
     <div class="container boxed">
 
         <form class="row row-cols g-3 align-items-center my-4" method="GET">
 
             <div class="col-3">
-                <input type="checkbox" name="recent" value="1"
+                <input type="checkbox" id="recent" name="recent" value="1"
                 <?php echo (isset($_GET['recent'])? 'checked':''); ?> >
-                <label>Mostra solo film recenti</label>
+                <label for="recent">Mostra solo film recenti</label>
             </div>
 
             <div class="col-3">
