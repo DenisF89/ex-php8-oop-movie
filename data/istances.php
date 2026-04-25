@@ -1,13 +1,13 @@
 <?php
 
-$metodo = "3° METODO";
+$metodo = "3° METODO: PHP-ARRAY DI OGGETTI";
 
 $genres = [
-        $drammatico = new Genre("Drammatico"),
-        $romantico = new Genre("Romantico"),
-        $crime = new Genre("Crime"),
-        $fantascienza = new Genre("Fantascienza"),
-        $azione = new Genre("Azione")
+        'Drammatico' => $drammatico = new Genre("Drammatico"),
+        'Romantico' => $romantico = new Genre("Romantico"),
+        'Crime' => $crime = new Genre("Crime"),
+        'Fantascienza' => $fantascienza = new Genre("Fantascienza"),
+        'Azione' => $azione = new Genre("Azione")
 ];
 
 $titanic = new Movie(

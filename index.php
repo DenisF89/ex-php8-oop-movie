@@ -5,25 +5,51 @@ require_once './Traits/HasGenres.php';
 require_once './Models/Genre.php';
 require_once './Models/Movie.php';
 
+
+session_start();
+if(isset($_POST['logout'])){
+    session_destroy();
+       header("Location: index.php");
+    exit;
+}
+
+
+
 //CREO ARRAY DI FILM E GENERI
+
 //--- 1°METODO: FILE JSON:ARRAY DI OGGETTI ---//
-$metodo = "1° METODO";
+$metodo = "1° METODO: JSON-ARRAY DI OGGETTI";
 //importo dati json
-//$string = file_get_contents('./data/movies.json');
-//$data = json_decode($string, true);
+$string = file_get_contents('./data/movies.json');
+$data = json_decode($string, true);
 
 //--- 2°METODO: FILE PHP:ARRAY DI ARRAY ---//
 //importo dati php
-require_once './data/db.php';
+
+/* ATTIVA/DISATTIVA --> */require_once './data/db.php';
 
 //--- CICLO PER 1° e 2° METODO ---//
 require_once './functions/cicle.php';
-$result = cicle($data);
-$movies = $result['movies'];
-$genres = $result['genres'];
+
+if (!isset($_SESSION['movies'])) {
+    ['movies' => $movies, 'genres' => $genres] = cicle($data);
 
 //--- 3°METODO: FILE PHP:ARRAY DI ISTANZE ---// 
-//require_once './data/istances.php';
+/* ATTIVA/DISATTIVA --> *///require_once './data/istances.php';
+
+    $_SESSION['movies'] = $movies;
+    $_SESSION['genres'] = $genres;
+} else {
+    $metodo = ' <form method="POST">
+                <label>SESSIONE ATTIVA</label><br>
+                <button type="submit" name="logout">Reset sessione</button>
+                </form>';
+    $movies = $_SESSION['movies'];
+    $genres = $_SESSION['genres'];
+}
+
+//var_dump($movies);
+//var_dump($genres);
 
 ?>
 
@@ -44,7 +70,7 @@ $genres = $result['genres'];
     </div>
     <div class="container boxed">
 
-        <form class="row row-cols g-3 align-items-center my-4" method="GET">
+        <form class="row row-cols g-3 align-items-center my-1" method="GET">
 
             <div class="col-3">
                 <input type="checkbox" id="recent" name="recent" value="1"
@@ -74,7 +100,7 @@ $genres = $result['genres'];
             <?php 
             //CICLO PER STAMPARE MOVIE
 
-                foreach ($movies as $movie) { 
+                foreach ($movies as $n=>$movie) { 
 
                 //FILTRI
                 
@@ -93,12 +119,13 @@ $genres = $result['genres'];
                 <div class="col">
                     <div class="card h-100 bg-secondary text-light border-3">
                         <div class="card-header p-0">
+                            <a href="single.php?id=<?= $n ?>">
                             <img 
                                 src="<?= $movie->locandina; ?>" 
                                 alt="<?= $movie->titolo; ?>" 
                                 class="img-fluid w-100"
                                 style="height: 300px; object-fit: cover;"
-                            >
+                            ></a>
                         </div>
                         <div class="card-body">
                             <h2 class="card-title fs-6"><?= $movie->titolo; ?></h2>
