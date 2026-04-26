@@ -97,7 +97,7 @@ if (!isset($_SESSION['movies'])) {
                     <?php foreach ($genres as $genre){
                         $value = $genre->getName();                                     
                         $selected = (isset($_GET['genre']) && $_GET['genre'] === $value) ? "selected" : "";
-                        echo "<option $selected value=$value>$value</option>";
+                        echo "<option $selected value='$value'>$value</option>";
                         }?>
                 </select>
             </div>
