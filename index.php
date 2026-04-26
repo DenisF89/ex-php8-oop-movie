@@ -30,7 +30,6 @@ $data = json_decode($string, true);
 
 //--- CICLO PER 1° e 2° METODO ---//
 require_once './functions/cicle.php';
-
 if (!isset($_SESSION['movies'])) {
     ['movies' => $movies, 'genres' => $genres] = cicle($data);
 
