@@ -5,41 +5,44 @@ require_once './Traits/HasGenres.php';
 require_once './Models/Genre.php';
 require_once './Models/Movie.php';
 
-
 session_start();
+
 if(isset($_POST['logout'])){
-    session_destroy();
-       header("Location: index.php");
-    exit;
+    unset($_SESSION['movies'], $_SESSION['genres']);
 }
 
+//CREO ARRAY DI FILM E GENERI IN 3 MODI:
+$metods = [ "1° METODO: JSON-ARRAY DI OGGETTI",
+            "2° METODO: PHP-ARRAY DI ARRAY",
+            "3° METODO: PHP-ARRAY DI OGGETTI"];
+$sessionForm = '';
+$metodo = 2;
+if(isset($_POST['metodo'])){
+    $metodo = $_POST['metodo'];
+    unset($_SESSION['movies'], $_SESSION['genres']);
+}
 
-
-//CREO ARRAY DI FILM E GENERI
-
-//--- 1°METODO: FILE JSON:ARRAY DI OGGETTI ---//
-$metodo = "1° METODO: JSON-ARRAY DI OGGETTI";
-//importo dati json
-$string = file_get_contents('./data/movies.json');
-$data = json_decode($string, true);
-
-//--- 2°METODO: FILE PHP:ARRAY DI ARRAY ---//
-//importo dati php
-
-/* ATTIVA/DISATTIVA --> */require_once './data/db.php';
-
-//--- CICLO PER 1° e 2° METODO ---//
-require_once './functions/cicle.php';
+//se non esiste in sessione creo altrimenti recupero
 if (!isset($_SESSION['movies'])) {
-    ['movies' => $movies, 'genres' => $genres] = cicle($data);
-
-//--- 3°METODO: FILE PHP:ARRAY DI ISTANZE ---// 
-/* ATTIVA/DISATTIVA --> *///require_once './data/istances.php';
-
+        if ($metodo == 3){
+            require_once './data/istances.php';
+        }
+        else{
+            if ($metodo == 1){
+                $string = file_get_contents('./data/movies.json');
+                $data = json_decode($string, true);
+            }
+            elseif($metodo == 2){
+                require_once './data/db.php';
+            }
+            //--- CICLO PER 1° e 2° METODO ---//
+            require_once './functions/cicle.php';
+            ['movies' => $movies, 'genres' => $genres] = cicle($data);
+        }
     $_SESSION['movies'] = $movies;
     $_SESSION['genres'] = $genres;
 } else {
-    $metodo = ' <form method="POST">
+    $sessionForm = '<form method="POST">
                 <label>SESSIONE ATTIVA</label><br>
                 <button type="submit" name="logout">Reset sessione</button>
                 </form>';
@@ -65,7 +68,18 @@ if (!isset($_SESSION['movies'])) {
 
     <div class="container text-center py-4">
             <h1>OOP Movies</h1>
-            <h6><?=$metodo?></h6>
+            <div class="d-flex justify-content-center">
+                <?php if (!empty($sessionForm)): echo $sessionForm; else: ?>
+            <form action="index.php" method="post">
+                <select class="form-select form-select-sm w-auto" id="metodo" name="metodo" onchange="this.form.submit();">
+                    <?php foreach ($metods as $metod){
+                        $value = substr($metod,0,1);                                   
+                        $selected = ($metodo == $value) ? "selected" : "";
+                        echo "<option $selected value= $value >$metod</option>";
+                        }?>
+                </select>
+            </form> <?php endif; ?>
+            </div>
     </div>
     <div class="container boxed">
 

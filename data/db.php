@@ -1,5 +1,5 @@
 <?php
-$metodo = "2° METODO: PHP-ARRAY DI ARRAY";
+
 //array di array associativi
 $data = [
     [
