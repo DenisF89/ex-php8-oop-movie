@@ -2,6 +2,7 @@
 
 //importo classi e traits
 require_once './Traits/HasGenres.php';
+require_once './Traits/HasImage.php';
 require_once './Models/Genre.php';
 require_once './Models/Movie.php';
 require_once './Models/Sequel.php';
@@ -88,10 +89,11 @@ if(isset($_POST['submit'])) //se il form è stato inviato
                     <div class="card h-100 bg-secondary text-light border-3">
                         <div class="card-header p-0">
                             <img 
-                                src="<?= $movie->getImage(); ?>" 
+                                src="<?= $movie->testImage(); ?>" 
                                 alt="<?= $movie->getTitle(); ?>" 
                                 class="img-fluid w-100"
                                 style="height: 400px; object-fit: cover;"
+                                onerror="this.src='<?= $movie->getPlaceholder(); ?>'; this.onerror=null;"
                             >
                         </div>
                         <div class="card-body">

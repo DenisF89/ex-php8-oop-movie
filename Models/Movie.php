@@ -3,16 +3,17 @@
 class Movie {
 
     use HasGenres;                        //usa trait
+    use HasImagePlaceholder;
 
     //proprietà di classe
     protected string $titolo;             //dichiarazione tipo di variabile: string/int/array...
     protected string $regista;            //public = proprietà accessibile da tutti i file dove esistono istanze di Movie
-    protected string $locandina;          //protected = proprietà accessibile dalla classe o dalle sue sottoclassi (ereditarietà Sequel "is a" Movie)
+    protected ?string $locandina;          //protected = proprietà accessibile dalla classe o dalle sue sottoclassi (ereditarietà Sequel "is a" Movie)
     protected int $anno;                  //private = proprietà accessibile solo all'interno della classe
     protected array $generi;
 
     //costruttore di istanza
-    function __construct(string $_titolo, string $_regista, string $_locandina, int $_anno, array $_generi){
+    function __construct(string $_titolo, string $_regista, ?string $_locandina = null, int $_anno, array $_generi ){
         $this->titolo = $_titolo;       //$this si riferisce all'istanza
         $this->regista = $_regista;     //assegnazione valori dei parametri alle proprietà di classe
         $this->locandina = $_locandina;

@@ -2,6 +2,7 @@
 
 //importo classi e traits
 require_once './Traits/HasGenres.php';
+require_once './Traits/HasImage.php';
 require_once './Models/Genre.php';
 require_once './Models/Movie.php';
 require_once './Models/Sequel.php';
@@ -134,10 +135,11 @@ if (!isset($_SESSION['movies'])) {
                         <div class="card-header p-0">
                             <a href="single.php?id=<?= $n ?>">
                             <img 
-                                src="<?= $movie->getImage(); ?>" 
+                                src="<?= $movie->testImage(); ?>" 
                                 alt="<?= $movie->getTitle(); ?>" 
                                 class="img-fluid w-100"
                                 style="height: 300px; object-fit: cover;"
+                                onerror="this.src='<?= $movie->getPlaceholder(); ?>'; this.onerror=null;"
                             ></a>
                         </div>
                         <div class="card-body">
