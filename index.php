@@ -4,6 +4,7 @@
 require_once './Traits/HasGenres.php';
 require_once './Models/Genre.php';
 require_once './Models/Movie.php';
+require_once './Models/Sequel.php';
 
 session_start();
 
@@ -130,7 +131,7 @@ if (!isset($_SESSION['movies'])) {
 
             ?>
                 <div class="col">
-                    <div class="card h-100 bg-secondary text-light border-3">
+                    <div class="card h-100 bg-secondary text-light border-3 <?= $movie instanceof Sequel ? 'border-light' : ''; ?> ">
                         <div class="card-header p-0">
                             <a href="single.php?id=<?= $n ?>">
                             <img 
@@ -145,6 +146,9 @@ if (!isset($_SESSION['movies'])) {
                             <div class="card-text fs-6"><b>Regista:</b> <?= $movie->regista; ?></div>
                             <div class="card-text fs-6"><b>Anno:</b> <?= $movie->anno; ?></div>
                             <div class="card-text fs-6"><?= $movie->getGenres(); /* metodo del trait HasGenres */ ?></div>
+                            <?php if($movie instanceof Sequel && $movie->hasPrequel()){ ?>
+                            <div class="card-text fs-6"><b>Prequel:</b> <?= $movie->getPrequelName(); ?></div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

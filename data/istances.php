@@ -81,14 +81,15 @@ $matrix = new Movie(
     1999,
     [$fantascienza, $azione]
 );
-$padrino = new Movie(
-    "The Godfather",
-    "Francis Ford Coppola",
-    "https://m.media-amazon.com/images/M/MV5BNGEwYjgwOGQtYjg5ZS00Njc1LTk2ZGEtM2QwZWQ2NjdhZTE5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-    1972,
-    [$crime, $drammatico]
+$matrix2 = new Sequel( 
+    "The Matrix Reloaded",
+    "The Wachowskis",
+    "https://m.media-amazon.com/images/M/MV5BNjAxYjkxNjktYTU0YS00NjFhLWIyMDEtMzEzMTJjMzRkMzQ1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+    2003,
+    [$fantascienza, $azione],
+    $matrix
 );
 
-$movies = [$spiderman, $harrypotter, $avengers, $lotr, $toystory, $titanic, $pulpfiction, $inception, $matrix, $padrino];
+$movies = [$spiderman, $harrypotter, $avengers, $lotr, $toystory, $titanic, $pulpfiction, $inception, $matrix, $matrix2];
 
 ?>
