@@ -124,9 +124,8 @@ if (!isset($_SESSION['movies'])) {
                                                                             //trasformo l'array di oggetti(Genre) in array di stringhe
                     $nomi = array_map(                                      //array_map fa un ciclo di operazioni su array e restituisce un nuovo array
                         fn($genere) => $genere->getName(),                  //callback che restituisce il nome del genere; fn = arrow function anonima
-                        $movie->generi                                      //array su cui cicla
-                        );
-                    if (!in_array($_GET['genre'], $nomi, true)) {continue;}       //se il filtro non corrisponde a nessun genere del film, non mostrarlo
+                        $movie->getGenres());                               //array su cui cicla
+                    if (!in_array($_GET['genre'], $nomi, true)) {continue;} //se il filtro non corrisponde a nessun genere del film, non mostrarlo
                 } 
 
             ?>
@@ -135,17 +134,17 @@ if (!isset($_SESSION['movies'])) {
                         <div class="card-header p-0">
                             <a href="single.php?id=<?= $n ?>">
                             <img 
-                                src="<?= $movie->locandina; ?>" 
-                                alt="<?= $movie->titolo; ?>" 
+                                src="<?= $movie->getImage(); ?>" 
+                                alt="<?= $movie->getTitle(); ?>" 
                                 class="img-fluid w-100"
                                 style="height: 300px; object-fit: cover;"
                             ></a>
                         </div>
                         <div class="card-body">
-                            <h2 class="card-title fs-6"><?= $movie->titolo; ?></h2>
-                            <div class="card-text fs-6"><b>Regista:</b> <?= $movie->regista; ?></div>
-                            <div class="card-text fs-6"><b>Anno:</b> <?= $movie->anno; ?></div>
-                            <div class="card-text fs-6"><?= $movie->getGenres(); /* metodo del trait HasGenres */ ?></div>
+                            <h2 class="card-title fs-6"><?= $movie->getTitle(); ?></h2>
+                            <div class="card-text fs-6"><b>Regista:</b> <?= $movie->getDirector(); ?></div>
+                            <div class="card-text fs-6"><b>Anno:</b> <?= $movie->getYear(); ?></div>
+                            <div class="card-text fs-6"><?= $movie->getString(); /* metodo del trait HasGenres */ ?></div>
                             <?php if($movie instanceof Sequel && $movie->hasPrequel()){ ?>
                             <div class="card-text fs-6"><b>Prequel:</b> <?= $movie->getPrequelName(); ?></div>
                             <?php } ?>

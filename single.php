@@ -4,8 +4,10 @@
 require_once './Traits/HasGenres.php';
 require_once './Models/Genre.php';
 require_once './Models/Movie.php';
+require_once './Models/Sequel.php';
 include_once './data/db.php';
 include_once './functions/cicle.php';
+
 
 session_start();
 
@@ -29,10 +31,10 @@ $movie = $movies[$id] ?? header("Location: index.php"); //se non esiste un movie
 if(isset($_POST['submit'])) //se il form è stato inviato
     {
         //assegna i valori passati alle proprietà dell'istanza 
-        $movie->titolo = $_POST['title'];
-        $movie->regista = $_POST['director'];
-        $movie->locandina = $_POST['image'];
-        $movie->anno = $_POST['year'];
+        $movie->setTitle($_POST['title']);
+        $movie->setDirector($_POST['director']);
+        $movie->setImage($_POST['image']);
+        $movie->setYear($_POST['year']);
 
         //controllo per i generi
         $array =    array_filter(                       //array_filter elimina le stringhe vuote
@@ -46,7 +48,7 @@ if(isset($_POST['submit'])) //se il form è stato inviato
              }
             $newGenres[] = $genres[$genre];             //assegno il genere all'array dei generi del film
         }
-        $movie->generi = $newGenres;                    //assegno il nuovo array alla proprietà del film
+        $movie->setGenres($newGenres);                    //assegno il nuovo array alla proprietà del film
 
         $movies[$id] = $movie;                          //aggiorno il film con le nuove proprietà
         $_SESSION['movies'] = $movies;                  //salvo in sessione l'array aggiornato dei film
@@ -58,7 +60,7 @@ if(isset($_POST['submit'])) //se il form è stato inviato
     
     //getGenres restituisce una stringa "<b>Genere/i:</b> gen1, gen2, gen3..."
     //la divido in "<b>Genere/i:</b>" e "gen1,gen2,gen3..."
-    $string = $movie->getGenres(); 
+    $string = $movie->getString(); 
     $pos = strpos($string, "</b>");     //posizione del primo carattere della stringa cercata
     $titolo = substr($string,0,$pos+4); //prendi porzione stringa,inizio,[fine]
     $generi = substr($string,$pos+4);
@@ -86,8 +88,8 @@ if(isset($_POST['submit'])) //se il form è stato inviato
                     <div class="card h-100 bg-secondary text-light border-3">
                         <div class="card-header p-0">
                             <img 
-                                src="<?= $movie->locandina; ?>" 
-                                alt="<?= $movie->titolo; ?>" 
+                                src="<?= $movie->getImage(); ?>" 
+                                alt="<?= $movie->getTitle(); ?>" 
                                 class="img-fluid w-100"
                                 style="height: 400px; object-fit: cover;"
                             >
@@ -96,22 +98,22 @@ if(isset($_POST['submit'])) //se il form è stato inviato
                             <span class="d-flex justify-content-between">
                                 <label>Titolo:</label>
                                 <input type="text" name="title" 
-                                value="<?= $movie->titolo; ?>" />
+                                value="<?= $movie->getTitle(); ?>" />
                             </span>
                             <span class="d-flex justify-content-between">
                                 <label>ImageUrl:</label>
                                 <input type="text" name="image" 
-                                value="<?= $movie->locandina; ?>" />
+                                value="<?= $movie->getImage(); ?>" />
                             </span>
                             <span class="d-flex justify-content-between">
                                 <label>Regista:</label>
                                 <input type="text" name="director" 
-                                value= "<?= $movie->regista; ?>" />
+                                value= "<?= $movie->getDirector(); ?>" />
                             </span>
                             <span class="d-flex justify-content-between">
                                 <label>Anno:</label>
                                 <input type="number" name="year" min="1950" max="2026" 
-                                value= "<?= $movie->anno; ?>" /> 
+                                value= "<?= $movie->getYear(); ?>" /> 
                             </span>
                             <span class="d-flex justify-content-between">
                                 <label><?=$titolo?></label>

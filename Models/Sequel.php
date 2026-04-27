@@ -15,7 +15,7 @@ class Sequel extends Movie {
     }
 
     public function getPrequelName(){
-        return $this->prequel->titolo;
+        return $this->prequel->getTitle();
     }
 }
 
